@@ -1,25 +1,32 @@
-import React, { useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import PropTypes from "prop-types";
+import React, { useRef, useEffect } from 'react';
+import { useGLTF, useAnimations } from '@react-three/drei';
+import PropTypes from 'prop-types';
 
-function Box({ dimensions, color }) {
-  const mesh = useRef();
-
-  console.log("Dimensions received in Box:", dimensions);
-
+function Box({ dimensions, ...props }) {
+  const group = useRef();
+  const { nodes, materials, animations } = useGLTF('/models/box.glb');
+  console.log("nodes:", nodes); // nodes 객체 확인
+  console.log("materials:", materials); // materials 객체 확인
+  const { actions } = useAnimations(animations, group);
   const { width, depth, height } = dimensions;
 
-  useFrame(() => {
-    if (mesh.current) {
-      mesh.current.rotation.y += 0.01;
+  useEffect(() => {
+    if (actions && actions['LidAction']) {
+      actions['LidAction'].play();
     }
-  });
+  }, [actions]);
 
   return (
-    <mesh ref={mesh} scale={[width, height, depth]}>
-      <boxGeometry />
-      <meshStandardMaterial color={color} />
-    </mesh>
+    <group ref={group} {...props} dispose={null}>
+      {/* 박스 렌더링 */}
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube.geometry} // Cube 메시 사용
+        material={materials.Material} // Material 재질 사용
+        scale={[width / 100, height / 100, depth / 100]}
+      />
+    </group>
   );
 }
 
@@ -29,7 +36,6 @@ Box.propTypes = {
     depth: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
   }).isRequired,
-  color: PropTypes.string.isRequired,
 };
 
 export default Box;

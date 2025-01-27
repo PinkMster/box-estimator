@@ -6,9 +6,9 @@ import Box from "./Box";
 import PropTypes from "prop-types";
 
 function Result({ estimate, width, depth, height, materialType }) {
-  const scaledWidth = parseFloat(width) / 200;
-  const scaledDepth = parseFloat(depth) / 200;
-  const scaledHeight = parseFloat(height) / 200;
+  const scaledWidth = parseFloat(width) / 20;
+  const scaledDepth = parseFloat(depth) / 20;
+  const scaledHeight = parseFloat(height) / 20;
 
   const materialColors = {
     WHITE: "lightblue",

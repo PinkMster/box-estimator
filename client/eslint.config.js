@@ -23,6 +23,15 @@ export default [
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
     },
+    
+      "extends": ["next/core-web-vitals", "eslint:recommended", "plugin:react/recommended"],
+      "globals": {
+        "JSX": true,
+        "Node": true,
+        "castShadow": true,
+        "receiveShadow": true,
+        "dispose": true
+      },
     rules: {
       ...js.configs.recommended.rules,
       ...react.configs.recommended.rules,
